@@ -67,7 +67,7 @@ if __name__ == "__main__":
     #Configuracion inicial
     DRIVER_PATH = '/usr/local/bin/chromedriver'
     options = Options()
-    options.headless = False
+    options.headless = True
     options.add_argument("--window-size=1920,1200")
     driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
     driver.get((BASE_URL))
