@@ -134,3 +134,4 @@ src/Utils/config/config.ini
 downloads/gas/*
 downloads/water/*
 downloads/electricity/*
+downloads/bond/*
