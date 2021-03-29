@@ -1,8 +1,13 @@
 # ReceiptDownloaderBot
 Bot to download receipts for water, gas and electricity services 
 
-TODO
-[] Download receipt Water
-[] Download receipt Gas
-[] Download receipt Electricity
-[] Send receipt telegram via
+## Installation
+```bash
+$ git clone git@github.com:rafavg77/ReceiptDownloaderBot.git
+```
+
+## TODO:
+- [x] Download receipt Water
+- [X] Download receipt Electricity
+- [ ] Download receipt Gas
+- [ ] Send receipt telegram via
