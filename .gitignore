@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 
 src/Utils/config/config.ini
-downloads/gas/
-downloads/water/
-downloads/electricity/
+downloads/gas/*
+downloads/water/*
+downloads/electricity/*
