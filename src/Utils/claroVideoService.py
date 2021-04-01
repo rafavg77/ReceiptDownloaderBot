@@ -66,25 +66,37 @@ def listDevices(driver):
         logging.info(len(devices))
         if len(devices) > 0:
             for device in devices:
-                form = device.find_element_by_tag_name('form')
-                deviceName = form.find_element_by_class_name('deviceName')
-                deviceType = form.find_element_by_class_name('deviceType')
-                deviceDate = form.find_element_by_class_name('deviceDate')
-                logging.info(deviceName.text)
-                logging.info(deviceType.text) 
+                getDevice(device)
+                element = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH,'//*[@id="micuentadevices"]/div/div/ul[2]')))
         else:
             while len(devices) == 0:
                 logging.error("No se pudo obtener lista de dispositivos")
                 devices = driver.find_elements_by_class_name('listElement')
                 for device in devices:
-                    form = device.find_element_by_tag_name('form')
-                    deviceName = form.find_element_by_class_name('deviceName')
-                    deviceType = form.find_element_by_class_name('deviceType')
-                    logging.info(deviceName.text)
-                    logging.info(deviceType.text) 
+                    getDevice(device)
+                    element = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH,'//*[@id="micuentadevices"]/div/div/ul[2]')))
     except ValueError as err:
         logging.error("Error in listDevices")
         driver.quit()
+
+def getDevice(device):
+    element = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CLASS_NAME,'listElement')))
+    form = device.find_element_by_tag_name('form')
+    deviceName = form.find_element_by_class_name('deviceName')
+    deviceType = form.find_element_by_class_name('deviceType')
+    deviceDate = form.find_element_by_class_name('deviceDate')
+    logging.info(deviceName.text)
+    logging.info(deviceType.text) 
+    delete = form.find_element_by_class_name('deleteButton')
+    delete.click()
+    element = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CLASS_NAME,'modal-dialog')))
+    modalDialog = driver.find_element_by_class_name('modal-dialog')
+    confirmDelete = modalDialog.find_elements_by_xpath("//*[contains(text(), 'Aceptar')]")
+    for btn in confirmDelete:
+        if btn.text == "Aceptar":
+            btn.click()
+            logging.info("Dispositivo "+ deviceName.text + " Borrado Exitosamente")
+            time.sleep(2)
 
 def logout(driver):
     try:
@@ -108,7 +120,7 @@ def claroServiceDropDevices(driver):
 
 if __name__ == "__main__":
     #Configuracion inicial
-    logging.info("Running Claro Video Script ...")
+    logging.info("Running Claro Video Script ... ")
     options = Options()
     options.headless = False
     #options.add_argument("--window-size=1920,1200")
@@ -116,6 +128,5 @@ if __name__ == "__main__":
     driver.get(BASE_URL)
     logging.info("Opening " + BASE_URL)
     claroServiceDropDevices(driver)
-    #getLastBillDoc(driver)
     logging.info("Done!")
     driver.quit()
